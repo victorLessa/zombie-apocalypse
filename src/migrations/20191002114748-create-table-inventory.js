@@ -18,7 +18,8 @@ module.exports = {
           references: {
             model: 'survivors',
             key: 'id'
-          }
+          },
+          onDelete: 'CASCADE'
         },
         item_id: {
           type: Sequelize.INTEGER.UNSIGNED,
@@ -26,7 +27,13 @@ module.exports = {
           references: {
             model: 'items',
             key: 'id'
-          }
+          },
+          onDelete: 'CASCADE'
+        },
+        alerts: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+          defaultValue: 0
         },
         quantity: {
           type: Sequelize.INTEGER,
