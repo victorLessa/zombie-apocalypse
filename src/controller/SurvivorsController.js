@@ -17,6 +17,15 @@ module.exports = function (SurvivorService) {
         res.status(error.status || 500).send(error)
         next(error)
       }
+    },
+    async updateInfectionIndicator (req, res, next) {
+      try {
+        let result = await SurvivorService.updateInfectionIndicator(req.body);
+        res.status(200).send(result);
+      } catch (error) {
+        res.status(error.status || 500).send(error)
+        next();
+      }
     }
   }
 }

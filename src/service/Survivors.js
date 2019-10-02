@@ -35,6 +35,21 @@ class Survivors {
     }
     return promise
   }
+  async updateInfectionIndicator ({ survivor_id }) {
+    let survivorInfection = this.db('infection_indicator')
+      .select('indications')
+      .where({ survivors_id: survivor_id })
+    survivorInfection[0].indications ++
+    if (survivorInfection[0].indications < 3) {
+      await this.db('infection_indicator')
+        .update(survivorInfection[0].indications)
+        .where({ survivor_id })
+    } else if (survivorInfection[0].indications > 2){
+      await this.db('survivors').update({ infected: true })
+        .where({ id: survivor_id })
+    }
+    return { message: 'Successful alert', status: 200 }
+  }
 }
 
 module.exports = Survivors
