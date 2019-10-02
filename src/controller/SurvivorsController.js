@@ -14,7 +14,7 @@ module.exports = function (SurvivorService) {
         let result = await SurvivorService.create(req.body)
         res.status(200).send(result)
       } catch (error) {
-        res.status(500).send(error)
+        res.status(error.status || 500).send(error)
         next(error)
       }
     }
