@@ -1,0 +1,9 @@
+
+# Created by https://www.gitignore.io/api/node
+# Dependency directories
+node_modules/
+# dotenv environment variables file
+.env
+.env.*
+config.json
+database.js
