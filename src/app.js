@@ -13,7 +13,9 @@ class AppController {
     this.express.use(express.json());
   }
   routes() {
-    this.express.use(require('./routes'));
+    this.express.use('/api/reports', require('./routes/reportsRouter'));
+    this.express.use('/api/survivors', require('./routes/survivorRouter'));
+    this.express.use('/api/properties', require('./routes/propertiesRouter'))
   }
 }
 
