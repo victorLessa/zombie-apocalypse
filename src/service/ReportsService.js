@@ -29,7 +29,6 @@ class Reports  {
     }
   }
   async itemsAverage ({ survivorsCount }) {
-    console.log('countWater')
     let countWater = await this.db.column().from('inventory')
     .sum('inventory.quantity')
     .leftJoin('survivors', 'survivors.id', 'inventory.survivor_id')
@@ -55,11 +54,20 @@ class Reports  {
       .andWhere('inventory.item_id', 4)
 
     return {
-      averageWater: countWater[0]['sum(`inventory`.`quantity`)'] / survivorsCount,
-      averageFood: countFood[0]['sum(`inventory`.`quantity`)'] / survivorsCount,
-      averageMedication: countMedication[0]['sum(`inventory`.`quantity`)'] / survivorsCount,
+      averageWater: parseFloat((countWater[0]['sum(`inventory`.`quantity`)'] / survivorsCount).toFixed(2)),
+      averageFood: parseFloat((countFood[0]['sum(`inventory`.`quantity`)'] / survivorsCount).toFixed(2)),
+      averageMedication: parseFloat((countMedication[0]['sum(`inventory`.`quantity`)'] / survivorsCount).toFixed(2)),
       averageAmmunition: parseFloat((countAmmunition[0]['sum(`inventory`.`quantity`)'] / survivorsCount).toFixed(2))
     }
+  }
+  async lostPoints () {
+    let result = await this.db
+    .raw(`Select sum(items.points * inventory.quantity) 
+      from inventory 
+      LEFT JOIN items ON items.id = inventory.item_id 
+      LEFT JOIN survivors ON survivors.id = inventory.survivor_id 
+      where survivors.infected = 1`)
+    return result[0][0]['sum(items.points * inventory.quantity)'] || 0
   }
   async percentages() {
     let survivorsInfected = await this.survivorsInfected();
@@ -73,10 +81,12 @@ class Reports  {
         survivorsNotInfected: survivorsNotInfected["count(`survivors`.`id`)"]
       }
     )
+    let lostPoints = await this.lostPoints();
     let averageProperties = await this.itemsAverage({ survivorsCount: survivorsCount["count(`survivors`.`id`)"] })
     return {
       calculatePercentage,
-      averageProperties
+      averageProperties,
+      lostPoints
     }
   }
 }
