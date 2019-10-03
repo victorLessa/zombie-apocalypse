@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "cross-env NODE_ENV=test nodemon src/server --ignore __tests__",
-    "pretest": " sequelize db:migrate --env test",
-    "test": "cross-env NODE_ENV=test jest --forceExit --detectOpenHandles",
+    "pretest": "sequelize db:migrate && sequelize db:seed:all --env test",
+    "test": "cross-env NODE_ENV=test mocha --forceExit --detectOpenHandles",
     "posttest": "sequelize db:migrate:undo:all --env test"
   },
   "repository": {
@@ -19,18 +19,16 @@
   "license": "ISC",
   "homepage": "https://bitbucket.org/victorlessa/codeminerzssn#readme",
   "dependencies": {
-    "apidoc": "^0.17.7",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "knex": "^0.19.4",
     "mysql": "^2.17.1",
-    "mysql-client": "^0.3.0",
-    "mysql-server": "^1.0.5",
-    "sql": "^0.78.0"
+    "mysql-client": "^0.3.0"
   },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cross-env": "^6.0.3",
-    "jest": "^24.9.0",
     "mysql2": "^1.7.0",
     "nodemon": "^1.19.3",
     "sequelize": "^5.19.2",
