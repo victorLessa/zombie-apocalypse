@@ -1,5 +1,6 @@
 // indes, show, store, destroy, update
-module.exports = function (SurvivorService) {
+const SurvivorsControler = function (SurvivorService) {
+  this.SurvivorService = SurvivorService;
   return {
     async index (req, res, next) {
       try {
@@ -11,7 +12,7 @@ module.exports = function (SurvivorService) {
     },
     async store (req, res, next) {
       try {
-        let result = await SurvivorService.create(req.body)
+        let result = await this.SurvivorService.create(req.body)
         res.status(200).send(result)
       } catch (error) {
         res.status(error.status || 500).send(error)
@@ -20,12 +21,14 @@ module.exports = function (SurvivorService) {
     },
     async updateInfectionIndicator (req, res, next) {
       try {
-        let result = await SurvivorService.updateInfectionIndicator(req.body);
+        let result = await this.SurvivorService.updateInfectionIndicator(req.body);
         res.status(200).send(result);
       } catch (error) {
         res.status(error.status || 500).send(error)
-        next();
+        next(error);
       }
     }
   }
 }
+
+module.exports = SurvivorsControler
