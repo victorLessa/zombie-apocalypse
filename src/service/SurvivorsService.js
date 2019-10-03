@@ -4,9 +4,19 @@ class Survivors {
   constructor(db) {
     this.db = db;
   }
-  async index() {
+  async index({ id }) {
     let result = await this.db('survivors')
-    return result
+      .where({ id })
+    if (result.length < 1) {
+      throw { message: 'Survivors not found', status: 404 }
+    }
+    return { result }
+  }
+  async show() {
+    let result = await this.db('survivors')
+      .limit(30)
+      .orderBy('survivors.id', 'asc')
+    return { result }
   }
   async create ({name, age, sex, last_place, ...items}) {
     let hasSurvivors = await this.db('survivors').where({ name, age, sex })
@@ -40,23 +50,23 @@ class Survivors {
     }
     return promise[0]
   }
-  async updateInfectionIndicator ({ survivor_id }) {
+  async updateInfectionIndicator ({ id }) {
     let survivorInfection = await this.db('infection_indicator')
       .select('alerts')
-      .where({ survivor_id: survivor_id })
+      .where({ survivor_id: id })
     
     if (!survivorInfection.length < 1) {
       survivorInfection[0].alerts ++;
       if (survivorInfection[0].alerts < 3) {
         await this.db('infection_indicator')
           .update({ alerts: survivorInfection[0].alerts })
-          .where({ survivor_id })
+          .where({ id })
       } else if (survivorInfection[0].alerts > 2){
         await this.db('infection_indicator')
           .update({ alerts: 3 })
-          .where({ survivor_id })
+          .where({ id })
         await this.db('survivors').update({ infected: true })
-          .where({ id: survivor_id })
+          .where({ id: id })
       }
     } else {
       throw { message: 'Survivor not found', status: 404 }
