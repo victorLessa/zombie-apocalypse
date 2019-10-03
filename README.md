@@ -2,13 +2,13 @@
 
 ## Setup
 
-### Use command for installer dependences
+### Run to install dependences
 
 ```shell
 npm i
 ```
 
-### Use command for installer migrations
+### Run to install migrations
 
 ```shell
 sequelize db:migrate
@@ -16,7 +16,7 @@ or
 .\node_modules\.bin\sequelize db:migrate
 ```
 
-### Use command for installer seeders
+### Run to install seeders
 
 ```shell
 sequelize db:seed:all
@@ -24,21 +24,21 @@ or
 .\node_modules\.bin\ db:seed:all
 ```
 
-Use command for start server
+### Run to start server
 
 ```shell
 npm run dev
 ```
 
-Use command for start test
+### Run to start test
 
 ```shell
 npm run test
 ```
 
-
-
 # Items
+
+#### Items registered by seed:
 
 ```js
 {
@@ -64,44 +64,33 @@ npm run test
 }
 ```
 
+# Survivors
 
+### Prefix
 
-# Routes 
-
-
-
-## Router GET/
-
-```js
-router.get('/', SurvivorsController.index);
+```npm
+/api/survivors
 ```
 
-### Return example
-
-```js
-{ "Hello World" }
-```
-
-
-
-## Router POST/register
+## Route POST/register
 
 ```js
 router.post('/register', SurvivorsController.store);
 ```
 
-### Params
+### Parameters
 
 ```js
 {
-        "name": "John Doe",
-        "age": 42,
+        "name": "Jhon Doe",
+        "age": 21,
         "sex": "Masculino",
         "last_place": null,
         "items": [
           {"item_id": 1, "quantity": 1},
           {"item_id": 2, "quantity": 5},
-          {"item_id": 3, "quantity": 3}
+          {"item_id": 3, "quantity": 3},
+					{"item_id": 4, "quantity": 4}
         ]
 }
 ```
@@ -110,26 +99,21 @@ router.post('/register', SurvivorsController.store);
 
 ```js
 {
-  "id": 42,
+  "id": 1,
   "name": "John Doe",
-  "age": 42
+  "age": 21
 }
-```
-
-
-
-## Router PATCH/indicators
-
-```js
-router.patch('/indicators', SurvivorsController.updateInfectionIndicator);
-```
-
-### Prams
-
-```js
+if there is error:
 {
-	"survivor_id": 1
+  "message": "User is already in the database",
+  "status": 500
 }
+```
+
+## Router PATCH/report_infection/:id
+
+```js
+router.patch('/report_infection/:id', SurvivorsController.updateInfectionIndicator);
 ```
 
 ### Return example
@@ -139,17 +123,146 @@ router.patch('/indicators', SurvivorsController.updateInfectionIndicator);
   "message": "Successful alert",
   "status": 200
 }
+if there is error:
+{
+  "message": "Survivor not found",
+  "status": 404
+}
 ```
 
+# Reports
 
+## Prefix
 
-## Router  POST/trade
+```bash
+/api/reports
+```
+
+## Router  GET/
 
 ```js
-router.post('/trade', TradeController.tradeItems);
+router.get('/', ReportsController.infectedPercentage);
 ```
 
-### Prams
+### Return Example
+
+```js
+{
+  "calculatePercentage": {
+    "infected": "0%",
+    "notInfected": "100%"
+  },
+  "averageProperties": {
+    "averageWater": 1,
+    "averageFood": 5,
+    "averageMedication": 3,
+    "averageAmmunition": 4
+  }
+}
+```
+
+# Properties
+
+## Prefix
+
+```bash
+/api/properties
+```
+
+## Router  GET /:Id
+
+```js
+router.get('/:id', SurvivorsController.index);
+```
+
+### Return example
+
+```js
+{
+  "name": "Jhon Doe",
+  "items": [
+    {
+      "name": "Water",
+      "quantity": 2
+    },
+    {
+      "name": "Food",
+      "quantity": 5
+    },
+    {
+      "name": "Medication",
+      "quantity": 3
+    },
+    {
+      "name": "Ammunition",
+      "quantity": 0
+    }
+  ]
+}
+```
+
+## Router GET/
+
+```js
+router.get('/', SurvivorsController.show);
+```
+
+### Return example
+
+```js
+[
+  {
+    "name": "Jhon Doe",
+    "items": [
+      {
+        "name": "Water",
+        "quantity": 2
+      },
+      {
+        "name": "Food",
+        "quantity": 5
+      },
+      {
+        "name": "Medication",
+        "quantity": 3
+      },
+      {
+        "name": "Ammunition",
+        "quantity": 0
+      }
+    ]
+  },
+  {
+    "name": "Codeminer 42",
+    "items": [
+      {
+        "name": "Water",
+        "quantity": 0
+      },
+      {
+        "name": "Food",
+        "quantity": 5
+      },
+      {
+        "name": "Medication",
+        "quantity": 3
+      },
+      {
+        "name": "Ammunition",
+        "quantity": 8
+      }
+    ]
+  }
+]
+```
+
+## Router  POST/:id
+
+```js
+router.post('/:id', PropertiesController.tradeItems);
+```
+
+### Parameters
 
 ```js
 {
@@ -169,23 +282,23 @@ router.post('/trade', TradeController.tradeItems);
 ### Return example
 
 ```js
-
-```
-
-
-
-## Router  GET/reports
-
-```js
-router.get('/reports', ReportsController.infectedPercentage);
-```
-
-### Return Example
-
-```js
 {
-  "infected": "100%",
-  "notInfected": "0%"
+  "message": "Change sucessfly",
+  "status": 200
+}
+if the user is infected: 
+{ 
+    "message": 'User Infected, can not trade', 
+    "status": 400 
+}
+else if If you do not have the required quantity:
+{
+  "message": "User doesn't have this many items",
+  "status": 500
+}
+else if User has no points needed to make the trade:
+{
+  "message": "Not enough points to trade",
+  "status": 400
 }
 ```
-
