@@ -253,70 +253,15 @@ router.get('/', ReportsController.infectedPercentage);
 * Fetches all items of the survivor
 
 ```js
-router.get('/:id', SurvivorsController.index);
+router.get('/:id', PropertiesController.index);
 ```
 
 ### Return example
 
 ```js
 {
-  "name": "Jhon Doe",
-  "items": [
-    {
-      "name": "Water",
-      "quantity": 2
-    },
-    {
-      "name": "Food",
-      "quantity": 5
-    },
-    {
-      "name": "Medication",
-      "quantity": 3
-    },
-    {
-      "name": "Ammunition",
-      "quantity": 0
-    }
-  ]
-}
-```
-
-## Router GET/
-
-* Search all items from all survivors
-
-```js
-router.get('/', SurvivorsController.show);
-```
-
-### Return example
-
-```js
-[
-  {
-    "name": "Jhon Doe",
-    "items": [
-      {
-        "name": "Water",
-        "quantity": 2
-      },
-      {
-        "name": "Food",
-        "quantity": 5
-      },
-      {
-        "name": "Medication",
-        "quantity": 3
-      },
-      {
-        "name": "Ammunition",
-        "quantity": 0
-      }
-    ]
-  },
-  {
-    "name": "Codeminer 42",
+  "result": {
+    "name": "Victorc",
     "items": [
       {
         "name": "Water",
@@ -336,7 +281,87 @@ router.get('/', SurvivorsController.show);
       }
     ]
   }
-]
+}
+```
+
+## Router GET/
+
+* Search all items from all survivors
+
+```js
+router.get('/', PropertiesController.show);
+```
+
+### Return example
+
+```js
+{
+  "result": [
+    {
+      "name": "Jhon Doe",
+      "items": [
+        {
+          "name": "Water",
+          "quantity": 2
+        },
+        {
+          "name": "Food",
+          "quantity": 5
+        },
+        {
+          "name": "Medication",
+          "quantity": 3
+        },
+        {
+          "name": "Ammunition",
+          "quantity": 0
+        }
+      ]
+    },
+    {
+      "name": "Victorc",
+      "items": [
+        {
+          "name": "Water",
+          "quantity": 0
+        },
+        {
+          "name": "Food",
+          "quantity": 5
+        },
+        {
+          "name": "Medication",
+          "quantity": 3
+        },
+        {
+          "name": "Ammunition",
+          "quantity": 8
+        }
+      ]
+    },
+    {
+      "name": "Codeminer 42",
+      "items": [
+        {
+          "name": "Water",
+          "quantity": 1
+        },
+        {
+          "name": "Food",
+          "quantity": 5
+        },
+        {
+          "name": "Medication",
+          "quantity": 3
+        },
+        {
+          "name": "Ammunition",
+          "quantity": 4
+        }
+      ]
+    }
+  ]
+}
 ```
 
 ## Router  POST/:id
