@@ -4,10 +4,20 @@ const SurvivorsControler = function (SurvivorService) {
   return {
     async index (req, res, next) {
       try {
-        res.status(200).send('Hello World')
+        let result = await this.SurvivorService.index(req.params)
+        res.status(200).send(result)
       } catch (error) {
         res.status(500).send(error)
         next();
+      }
+    },
+    async show(req, res, next) {
+      try {
+        let result = await this.SurvivorService.show()
+        res.send(result)
+      } catch (error) {
+        res.status(error.status || 500).send(error)
+        next(error)
       }
     },
     async store (req, res, next) {
@@ -21,7 +31,7 @@ const SurvivorsControler = function (SurvivorService) {
     },
     async updateInfectionIndicator (req, res, next) {
       try {
-        let result = await this.SurvivorService.updateInfectionIndicator(req.body);
+        let result = await this.SurvivorService.updateInfectionIndicator(req.params);
         res.status(200).send(result);
       } catch (error) {
         res.status(error.status || 500).send(error)
