@@ -228,15 +228,16 @@ router.get('/', ReportsController.infectedPercentage);
 ```js
 {
   "calculatePercentage": {
-    "infected": "0%",
-    "notInfected": "100%"
+    "infected": "66.67%",
+    "notInfected": "33.33%"
   },
   "averageProperties": {
-    "averageWater": 1,
-    "averageFood": 5,
-    "averageMedication": 3,
-    "averageAmmunition": 4
-  }
+    "averageWater": 0.33,
+    "averageFood": 1.67,
+    "averageMedication": 1,
+    "averageAmmunition": 1.33
+  },
+  "lostPoints": 58
 }
 ```
 
