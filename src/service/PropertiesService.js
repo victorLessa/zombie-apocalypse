@@ -23,7 +23,7 @@ class TradeService {
         result[i].items.push({ name: items[j].item_name, quantity: items[j].quantity })
       }
     }
-    return result
+    return { result }
   }
   async index ({ id }) {
     let items = await this.db.column([
@@ -41,7 +41,7 @@ class TradeService {
     for (let i = 0; i < items.length; i++) {
       result['items'][i] = { name: items[i].item_name, quantity: items[i].quantity }
     }
-    return result
+    return { result }
   }
   async getInventory({ survivor_id, item_id }) {
     let inventory = await this.db.column([
