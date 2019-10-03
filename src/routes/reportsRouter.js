@@ -7,6 +7,6 @@ let ReportsService = require('../service/ReportsService');
 const ReportsController = 
   require('../controller/ReportsController')(new ReportsService(db));
 
-router.get('/', ReportsController.infectedPercentage);
+router.get('/', ReportsController.percentages);
 
 module.exports = router
