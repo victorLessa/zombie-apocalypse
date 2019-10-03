@@ -22,6 +22,11 @@ module.exports = {
           },
           onDelete: 'CASCADE'
         },
+        alerts: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+          defaultValue: 0
+        },
         created_at: {
           type: Sequelize.DATE,
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
