@@ -218,6 +218,7 @@ if there is error:
 
 * returns report on: percentage of infected survivors, Percentage of uninfected survivors, average amount of each resource type per survivor (ex 5 waters per survivor), points lost because of infected survivor.
 * Obs: Media of each resource type is taken from the 'uninfected'
+* Calculation based on points * quantities
 
 ```js
 router.get('/', ReportsController.infectedPercentage);
