@@ -30,11 +30,6 @@ module.exports = {
           },
           onDelete: 'CASCADE'
         },
-        alerts: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-          defaultValue: 0
-        },
         quantity: {
           type: Sequelize.INTEGER,
           allowNull: true,
