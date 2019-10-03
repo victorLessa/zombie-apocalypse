@@ -2,7 +2,6 @@
 
 class Trade {
   contructor() {
-
   }
   isPossible ({ currentSurvivor, otherSurvivor }) {
     let currentSruvivorPoints = 
@@ -19,4 +18,4 @@ class Trade {
   }
 }
 
-module.exports = new Trade();
+module.exports = Trade;
