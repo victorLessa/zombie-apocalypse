@@ -72,7 +72,80 @@ npm run test
 /api/survivors
 ```
 
+## Route GET/:id
+
+* Return survivor by id
+
+```js
+router.get('/:id', SurvivorsController.index);
+```
+
+### Return example
+
+```js
+{
+  "result": [
+    {
+      "id": 1,
+      "name": "Victor",
+      "age": 21,
+      "sex": "Masculino",
+      "last_place": null,
+      "created_at": "2019-10-03T16:03:34.000Z",
+      "updated_at": "2019-10-03T16:03:34.000Z",
+      "infected": 0
+    }
+  ]
+}
+else:
+{
+  "message": "Survivors not found",
+  "status": 404
+}
+```
+
+## Route GET/
+
+* Returns all survivors
+
+```js
+router.get('/', SurvivorsController.show);
+```
+
+### Return example
+
+```js
+{
+  "result": [
+    {
+      "id": 1,
+      "name": "Jhon Doe",
+      "age": 21,
+      "sex": "Masculino",
+      "last_place": null,
+      "created_at": "2019-10-03T16:03:34.000Z",
+      "updated_at": "2019-10-03T16:03:34.000Z",
+      "infected": 0
+    },
+    {
+      "id": 2,
+      "name": "Codeminer",
+      "age": 21,
+      "sex": "Masculino",
+      "last_place": null,
+      "created_at": "2019-10-03T16:03:36.000Z",
+      "updated_at": "2019-10-03T16:03:36.000Z",
+      "infected": 0
+    }
+  ]
+}
+```
+
+
+
 ## Route POST/register
+
+* Perform the registration of a survivor
 
 ```js
 router.post('/register', SurvivorsController.store);
@@ -112,6 +185,9 @@ if there is error:
 
 ## Router PATCH/report_infection/:id
 
+* Reports if one survivor is infected
+
+
 ```js
 router.patch('/report_infection/:id', SurvivorsController.updateInfectionIndicator);
 ```
@@ -139,6 +215,9 @@ if there is error:
 ```
 
 ## Router  GET/
+
+* returns report on: percentage of infected survivors, Percentage of uninfected survivors, average amount of each resource type per survivor (ex 5 waters per survivor), points lost because of infected survivor.
+* Obs: Media of each resource type is taken from the 'uninfected'
 
 ```js
 router.get('/', ReportsController.infectedPercentage);
@@ -171,6 +250,8 @@ router.get('/', ReportsController.infectedPercentage);
 
 ## Router  GET /:Id
 
+* Fetches all items of the survivor
+
 ```js
 router.get('/:id', SurvivorsController.index);
 ```
@@ -202,6 +283,8 @@ router.get('/:id', SurvivorsController.index);
 ```
 
 ## Router GET/
+
+* Search all items from all survivors
 
 ```js
 router.get('/', SurvivorsController.show);
@@ -257,6 +340,8 @@ router.get('/', SurvivorsController.show);
 ```
 
 ## Router  POST/:id
+
+* Make a trade transaction between survivors
 
 ```js
 router.post('/:id', PropertiesController.tradeItems);
