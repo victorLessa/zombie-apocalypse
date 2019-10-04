@@ -139,6 +139,11 @@ router.get('/', SurvivorsController.show);
     }
   ]
 }
+or
+{
+  "message": "Survivor not found or got infected",
+  "status": 404
+}
 ```
 
 
@@ -182,6 +187,34 @@ if there is error:
   "status": 500
 }
 ```
+
+## Route PATCH/{ :id }/place
+
+* Update survivor locale
+
+```js
+router.patch('/:id/place', SurvivorsController.update);
+```
+
+### Parameters
+
+```js
+{
+	"last_place": "-22.8945014,-43.1185222"
+}
+```
+
+### Return example
+
+```js
+{
+  "message": "Survivor location successfully updated",
+  "status": 200
+}
+```
+
+
+
 
 ## Router PATCH/report_infection/:id
 
@@ -284,6 +317,11 @@ router.get('/:id', PropertiesController.index);
     ]
   }
 }
+or
+{
+  "message": "Infected Survivor",
+  "status": 400
+}
 ```
 
 ## Router GET/
@@ -379,13 +417,12 @@ router.post('/:id', PropertiesController.tradeItems);
 ```js
 {
 	"from": {
-			"survivor_id": 3,
-			"item_id": 3,
-			"quantity": 2	
+			"item_id": 1,
+			"quantity": 4	
 	},
 	"per": {
-			"survivor_id": 4,
-			"item_id": 2,
+			"survivor_id": 2,
+			"item_id": 1,
 			"quantity": 1
 	}
 }
