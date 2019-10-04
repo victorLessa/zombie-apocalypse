@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "cross-env NODE_ENV=test nodemon src/server --ignore __tests__",
-    "pretest": "sequelize db:migrate && sequelize db:seed:all --env test",
-    "test": "cross-env NODE_ENV=test mocha --forceExit --detectOpenHandles",
-    "posttest": "sequelize db:migrate:undo:all --env test"
+    "dev": "cross-env NODE_ENV=production nodemon src/server --ignore __tests__",
+    "pretest": "cross-env NODE_ENV=test sequelize db:migrate && cross-env NODE_ENV=test sequelize db:seed:all",
+    "test": "cross-env NODE_ENV=test mocha --exit",
+    "posttest": "cross-env NODE_ENV=test sequelize db:migrate:undo:all"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
     "cross-env": "^6.0.3",
+    "mocha": "^6.2.1",
     "mysql2": "^1.7.0",
     "nodemon": "^1.19.3",
     "sequelize": "^5.19.2",
