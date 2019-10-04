@@ -6,7 +6,9 @@ class TradeService {
     this.utilsTrade = new utilsTrade();
   }
   async show () {
-    let survivors = await this.db('survivors').select('id', 'name')
+    let survivors = await this.db('survivors')
+      .select('id', 'name')
+      .where('survivors.infected', 0)
     let result = [];
     for (let i = 0; i < survivors.length; i++) {
       let items = await this.db.column([
@@ -18,6 +20,7 @@ class TradeService {
       .leftJoin('items', 'items.id', 'inventory.item_id')
       .leftJoin('survivors', 'survivors.id', 'inventory.survivor_id')
       .where('inventory.survivor_id', survivors[i].id)
+      .andWhere('survivors.infected', 0)
       result[i] = {name: survivors[i].name, items: [] }
       for (let j = 0; j < items.length; j++) {
         result[i].items.push({ name: items[j].item_name, quantity: items[j].quantity })
@@ -35,7 +38,11 @@ class TradeService {
     .leftJoin('items', 'items.id', 'inventory.item_id')
     .leftJoin('survivors', 'survivors.id', 'inventory.survivor_id')
     .where('inventory.survivor_id', id)
+    .andWhere('survivors.infected', 0)
     let result = {}
+    if (items.length < 1) {
+      throw { message: 'Infected Survivor', status: 400 }
+    }
     result['name'] = items[0].name
     result['items'] = []
     for (let i = 0; i < items.length; i++) {
