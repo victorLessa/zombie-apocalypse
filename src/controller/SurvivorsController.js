@@ -31,9 +31,10 @@ const SurvivorsControler = function (SurvivorService) {
     },
     async update (req, res, next) {
       try {
-        await this.SurvivorService.update(req.body, req.params)
-        res.send({ message: 'Survivor location successfully updated', status: 200 })
+        let result = await this.SurvivorService.update(req.body, req.params)
+        res.send(result)
       } catch (error) {
+        res.status(error.status).send(error)
         next(error)
       }
     },

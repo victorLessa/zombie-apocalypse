@@ -25,7 +25,7 @@ module.exports = {
         allowNull: false
       },
       last_place: {
-        type: Sequelize.GEOMETRY('POINT')  ,
+        type: Sequelize.GEOMETRY('POINT'),
         allowNull: true,
         defaultValue: null
       },
