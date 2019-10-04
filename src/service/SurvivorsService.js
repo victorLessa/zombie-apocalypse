@@ -6,14 +6,15 @@ class Survivors {
   }
   async index({ id }) {
     let result = await this.db('survivors')
-      .where({ id })
+      .where({ id, infected: 0 })
     if (result.length < 1) {
-      throw { message: 'Survivors not found', status: 404 }
+      throw { message: 'Survivor not found or got infected', status: 404 }
     }
     return { result }
   }
   async show() {
     let result = await this.db('survivors')
+      .where('survivors.infected', 0)
       .limit(30)
       .orderBy('survivors.id', 'asc')
     return { result }
