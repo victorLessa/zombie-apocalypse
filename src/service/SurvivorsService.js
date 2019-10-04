@@ -57,9 +57,13 @@ class Survivors {
   }
   async update({ last_place }, { id }) {
     let geoLoc = 'point(' + last_place + ')';
-    console.log(geoLoc, id)
-    await this.db.raw('UPDATE survivors SET last_place = ' + geoLoc + ' WHERE id = ' + id)
-    return
+    let result = await this.db.raw('UPDATE survivors SET last_place = ' + geoLoc + ' WHERE id = ' + id)
+    if (result[0].affectedRows === 0) {
+      throw { message: 'Survivor not found', status: 404 }
+    }
+    result = await this.db('survivors').where({ id })
+    result = result[0]
+    return { result }
   }
   async updateInfectionIndicator ({ id }) {
     let survivorInfection = await this.db('infection_indicator')
