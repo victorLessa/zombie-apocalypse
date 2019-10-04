@@ -13,7 +13,6 @@ const TradeController = function (PropertiesService) {
     async show (req, res, next) {
       try {
         let result = await this.PropertiesService.show();
-        console.log(result)
         res.send(result)
       } catch(error) {
         res.send(error)
