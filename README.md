@@ -21,7 +21,7 @@ or
 ```shell
 sequelize db:seed:all
 or
-.\node_modules\.bin\ db:seed:all
+.\node_modules\.bin\sequelize db:seed:all
 ```
 
 ### Run to start server
