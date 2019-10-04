@@ -11,5 +11,5 @@ router.get('/:id', SurvivorsController.index);
 router.get('/', SurvivorsController.show);
 router.post('/register', SurvivorsController.store);
 router.patch('/report_infection/:id', SurvivorsController.updateInfectionIndicator);
-
+router.patch('/:id/place', SurvivorsController.update);
 module.exports = router

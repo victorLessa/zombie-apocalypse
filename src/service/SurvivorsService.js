@@ -21,11 +21,12 @@ class Survivors {
   async create ({name, age, sex, last_place, ...items}) {
     let hasSurvivors = await this.db('survivors').where({ name, age, sex })
     let promise;
+    let geoLoc = 'point(' + last_place + ')';
     if (hasSurvivors.length < 1) {
       await this.db.transaction(async trx => {
         await this.db('survivors')
           .transacting(trx)
-          .insert({ name, age, sex, last_place })
+          .insert({ name, age, sex })
           .then(async survivorId => {
             await this.db('infection_indicator')
               .transacting(trx)
@@ -40,6 +41,9 @@ class Survivors {
                       item_id: items.items[i].item_id,
                       quantity: items.items[i].quantity
                     })
+                    .then(async (resp) => {
+                      await this.db.raw('UPDATE survivors SET last_place = ' + geoLoc + ' WHERE id = ' + survivorId[0]).transacting(trx)
+                    })
                 }
               })
           }).catch(trx.rollback)
@@ -49,6 +53,12 @@ class Survivors {
       throw { message:'User is already in the database', status: 500 };
     }
     return promise[0]
+  }
+  async update({ last_place }, { id }) {
+    let geoLoc = 'point(' + last_place + ')';
+    console.log(geoLoc, id)
+    await this.db.raw('UPDATE survivors SET last_place = ' + geoLoc + ' WHERE id = ' + id)
+    return
   }
   async updateInfectionIndicator ({ id }) {
     let survivorInfection = await this.db('infection_indicator')
