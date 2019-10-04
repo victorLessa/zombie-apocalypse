@@ -211,6 +211,11 @@ router.patch('/:id/place', SurvivorsController.update);
   "message": "Survivor location successfully updated",
   "status": 200
 }
+or
+{
+  "message": "Survivor not found",
+  "status": 404
+}
 ```
 
 
