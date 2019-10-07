@@ -3,6 +3,8 @@ require('dotenv').config({
 });
 
 const express = require('express');
+const router = require('../src/routes/index');
+
 class AppController {
   constructor() {
     this.express = express();
@@ -11,11 +13,15 @@ class AppController {
   }
   middlewares() {
     this.express.use(express.json());
+    this.express.use(function (req, res, next) {
+      console.log(req.method, req.path);
+      next();
+    });
   }
   routes() {
-    this.express.use('/api/reports', require('./routes/reportsRouter'));
-    this.express.use('/api/survivors', require('./routes/survivorRouter'));
-    this.express.use('/api/properties', require('./routes/propertiesRouter'))
+    this.express.use('/api/reports', router.reportsRoute);
+    this.express.use('/api/survivors', router.survivorsRoute);
+    this.express.use('/api/properties', router.propertiesRoute);
   }
 }
 
