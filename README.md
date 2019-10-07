@@ -145,7 +145,7 @@ router.get('/', SurvivorsController.show);
 }
 or
 {
-  "message": "Survivor not found orÂ got infected",
+  "message": "Survivor not found or got infected",
   "status": 404
 }
 ```
@@ -164,17 +164,17 @@ router.post('/register', SurvivorsController.store);
 
 ```js
 {
-        "name": "Jhon Doe",
+        "name": "Codeminer",
         "age": 21,
         "sex": "Masculino",
-        "last_place": null,
+        "last_place": "-22.8945014,-43.1185222",
         "items": [
-          {"item_id": 1, "quantity": 1},
-          {"item_id": 2, "quantity": 5},
-          {"item_id": 3, "quantity": 3},
-					{"item_id": 4, "quantity": 4}
+          { "item_id": 1, "quantity": 1 },
+          { "item_id": 2, "quantity": 5 },
+          { "item_id": 3, "quantity": 3 },
+          { "item_id": 4, "quantity": 4 }
         ]
-}
+      }
 ```
 
 ### Return example
