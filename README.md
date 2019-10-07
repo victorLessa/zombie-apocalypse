@@ -154,7 +154,7 @@ router.get('/', SurvivorsController.show);
 }
 or
 {
-  "message": "Survivor not found or got infected",
+  "message": "Survivor not found or�got infected",
   "status": 404
 }
 ```
