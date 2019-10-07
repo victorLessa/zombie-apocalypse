@@ -91,12 +91,15 @@ router.get('/:id', SurvivorsController.index);
   "result": [
     {
       "id": 1,
-      "name": "Victor",
+      "name": "Codeminer",
       "age": 21,
       "sex": "Masculino",
-      "last_place": null,
-      "created_at": "2019-10-03T16:03:34.000Z",
-      "updated_at": "2019-10-03T16:03:34.000Z",
+      "last_place": {
+        "x": -22.8945014,
+        "y": -43.1185202
+      },
+      "created_at": "2019-10-04T14:12:35.000Z",
+      "updated_at": "2019-10-04T14:50:50.000Z",
       "infected": 0
     }
   ]
@@ -123,22 +126,28 @@ router.get('/', SurvivorsController.show);
   "result": [
     {
       "id": 1,
-      "name": "Jhon Doe",
+      "name": "Codeminer",
       "age": 21,
       "sex": "Masculino",
-      "last_place": null,
-      "created_at": "2019-10-03T16:03:34.000Z",
-      "updated_at": "2019-10-03T16:03:34.000Z",
+      "last_place": {
+        "x": -22.8945014,
+        "y": -43.1185202
+      },
+      "created_at": "2019-10-04T14:12:35.000Z",
+      "updated_at": "2019-10-04T14:50:50.000Z",
       "infected": 0
     },
     {
       "id": 2,
-      "name": "Codeminer",
+      "name": "Codeminer42",
       "age": 21,
       "sex": "Masculino",
-      "last_place": null,
-      "created_at": "2019-10-03T16:03:36.000Z",
-      "updated_at": "2019-10-03T16:03:36.000Z",
+      "last_place": {
+        "x": -22.8945014,
+        "y": -43.1185222
+      },
+      "created_at": "2019-10-04T14:12:48.000Z",
+      "updated_at": "2019-10-04T14:12:48.000Z",
       "infected": 0
     }
   ]
@@ -164,16 +173,16 @@ router.post('/register', SurvivorsController.store);
 
 ```js
 {
-        "name": "Jhon Doe",
-        "age": 21,
-        "sex": "Masculino",
-        "last_place": null,
-        "items": [
-          {"item_id": 1, "quantity": 1},
-          {"item_id": 2, "quantity": 5},
-          {"item_id": 3, "quantity": 3},
-					{"item_id": 4, "quantity": 4}
-        ]
+  "name": "Codeminer",
+  "age": 21,
+  "sex": "Masculino",
+  "last_place": "-22.8945014,-43.1185222",
+  "items": [
+    { "item_id": 1, "quantity": 1 },
+    { "item_id": 2, "quantity": 5 },
+    { "item_id": 3, "quantity": 3 },
+    { "item_id": 4, "quantity": 4 }
+  ]
 }
 ```
 
