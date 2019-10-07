@@ -1,4 +1,4 @@
-const TradeController = function (PropertiesService) {
+const PropertiesController = function (PropertiesService) {
   this.PropertiesService = PropertiesService;
   return {
     async index(req, res, next) {
@@ -33,4 +33,4 @@ const TradeController = function (PropertiesService) {
   }
 }
 
-module.exports = TradeController;
+module.exports = PropertiesController;

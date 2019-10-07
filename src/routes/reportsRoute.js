@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
 
-// Dependencia Injection Reports
+// Injection Reports
 let ReportsService = require('../service/ReportsService');
 const ReportsController = 
   require('../controller/ReportsController')(new ReportsService(db));
