@@ -2,6 +2,10 @@
 
 ## Setup
 
+* Before running migrations create a database and then run the migration.
+* Why did I choose sequelize ORM? It allows you to create, fetch, alter and remove data from the database using JS methods, as well as allow you to modify the structure of the tables, making it easy to create, populate and migrate databases.
+* Database used: Mysql.
+
 ### Run to install dependences
 
 ```shell
@@ -38,7 +42,7 @@ npm run test
 
 # Items
 
-#### Items registered by seed:
+* Items registered by seed:
 
 ```js
 {
@@ -188,9 +192,9 @@ if there is error:
 }
 ```
 
-## Route PATCH/{ :id }/place
+## Route PATCH/:id/place
 
-* Update survivor locale
+* Update survivor localize
 
 ```js
 router.patch('/:id/place', SurvivorsController.update);
@@ -437,7 +441,7 @@ router.post('/:id', PropertiesController.tradeItems);
 
 ```js
 {
-  "message": "Change sucessfly",
+  "message": "Trade was successful",
   "status": 200
 }
 if the user is infected: 
