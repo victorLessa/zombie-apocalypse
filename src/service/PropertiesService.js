@@ -1,11 +1,13 @@
 'use strict'
+
 const utilsTrade = require('../utils/trade');
-class TradeService {
+
+class PropertiesService {
   constructor(db) {
     this.db = db
     this.utilsTrade = new utilsTrade();
   }
-  async show () {
+  async show() {
     let survivors = await this.db('survivors')
       .select('id', 'name')
       .where('survivors.infected', 0)
@@ -17,28 +19,28 @@ class TradeService {
         'inventory.item_id',
         'survivors.name'
       ]).from('inventory')
-      .leftJoin('items', 'items.id', 'inventory.item_id')
-      .leftJoin('survivors', 'survivors.id', 'inventory.survivor_id')
-      .where('inventory.survivor_id', survivors[i].id)
-      .andWhere('survivors.infected', 0)
-      result[i] = {name: survivors[i].name, items: [] }
+        .leftJoin('items', 'items.id', 'inventory.item_id')
+        .leftJoin('survivors', 'survivors.id', 'inventory.survivor_id')
+        .where('inventory.survivor_id', survivors[i].id)
+        .andWhere('survivors.infected', 0)
+      result[i] = { name: survivors[i].name, items: [] }
       for (let j = 0; j < items.length; j++) {
         result[i].items.push({ name: items[j].item_name, quantity: items[j].quantity })
       }
     }
     return { result }
   }
-  async index ({ id }) {
+  async index({ id }) {
     let items = await this.db.column([
       'items.name as item_name',
       'inventory.quantity',
       'inventory.item_id',
       'survivors.name'
     ]).from('inventory')
-    .leftJoin('items', 'items.id', 'inventory.item_id')
-    .leftJoin('survivors', 'survivors.id', 'inventory.survivor_id')
-    .where('inventory.survivor_id', id)
-    .andWhere('survivors.infected', 0)
+      .leftJoin('items', 'items.id', 'inventory.item_id')
+      .leftJoin('survivors', 'survivors.id', 'inventory.survivor_id')
+      .where('inventory.survivor_id', id)
+      .andWhere('survivors.infected', 0)
     let result = {}
     if (items.length < 1) {
       throw { message: 'Infected Survivor', status: 400 }
@@ -64,7 +66,24 @@ class TradeService {
       .andWhere('items.id', item_id);
     return inventory[0]
   }
-
+  async removeInventory({ quantity, survivor_id, item_id }) {
+    let item = await this.db('inventory').select('quantity')
+      .where({ survivor_id, item_id })
+    item[0].quantity -= quantity
+    await this.db('inventory')
+      .update(item[0])
+      .where({ survivor_id, item_id: item_id })
+    return item
+  }
+  async addInventory({ quantity, survivor_id, item_id }) {
+    let item = await this.db('inventory').select('quantity')
+      .where({ survivor_id, item_id })
+    item[0].quantity += quantity
+    await this.db('inventory')
+      .update(item[0])
+      .where({ survivor_id, item_id: item_id })
+    return item
+  }
   async tradeItems({ from, per }) {
     let currentSurvivor = await this.getInventory(from);
     let otherSurvivor = await this.getInventory(per);
@@ -82,32 +101,29 @@ class TradeService {
     ) {
       throw { message: "User doesn't have this many items", status: 500 }
     }
+    currentSurvivor.quantity = from.quantity
+    otherSurvivor.quantity = per.quantity
     if (this.utilsTrade.isPossible({ currentSurvivor, otherSurvivor })) {
-      let currentItem = await this.db('inventory').select('quantity')
-        .where({ survivor_id: from.survivor_id, item_id: from.item_id })
-      currentItem[0].quantity -= from.quantity
-      await this.db('inventory')
-        .update(currentItem[0])
-        .where({ survivor_id: from.survivor_id, item_id: from.item_id })
-      let currentChangeItem = await this.db('inventory').select('quantity')
-        .where({ survivor_id: from.survivor_id, item_id: per.item_id })
-      currentChangeItem[0].quantity += per.quantity
-      await this.db('inventory')
-        .update(currentChangeItem[0])
-        .where({ survivor_id: from.survivor_id, item_id: per.item_id })
-      //
-      let perItem = await this.db('inventory').select('quantity')
-        .where({ survivor_id: per.survivor_id, item_id: per.item_id })
-      perItem[0].quantity -= per.quantity
-      await this.db('inventory')
-        .update(perItem[0])
-        .where({ survivor_id: per.survivor_id, item_id: per.item_id })
-      let perChangeItem = await this.db('inventory').select('quantity')
-        .where({ survivor_id: per.survivor_id, item_id: from.item_id })
-      perChangeItem[0].quantity += from.quantity
-      await this.db('inventory')
-        .update(perChangeItem[0])
-        .where({ survivor_id: per.survivor_id, item_id: from.item_id })
+      await this.removeInventory({ 
+        quantity: from.quantity, 
+        survivor_id: from.survivor_id, 
+        item_id: from.item_id
+      });
+      await this.addInventory({
+        quantity: per.quantity,
+        survivor_id: from.survivor_id,
+        item_id: per.item_id
+      });
+      await this.removeInventory({
+        quantity: per.quantity,
+        survivor_id: per.survivor_id,
+        item_id: per.item_id
+      });
+      await this.addInventory({
+        quantity: from.quantity,
+        survivor_id: per.survivor_id,
+        item_id: from.item_id 
+      });
       return { message: 'Change sucessfly', status: 200 }
     } else {
       throw { messsage: 'Not enough points to trade', status: 400 }
@@ -115,4 +131,4 @@ class TradeService {
   }
 }
 
-module.exports = TradeService
+module.exports = PropertiesService
