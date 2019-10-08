@@ -14,12 +14,7 @@ class AppController {
   }
   middlewares() {
     this.express.use(express.json());
-    this.express.use(cors({
-      preflightMaxAge: 5,
-      origins: ['*'],
-      allowHeaders: ['*', 'authorization','Authorization'],
-      exposeHeaders: ['*']
-    }));
+    this.express.use(cors());
     this.express.use(function (req, res, next) {
       console.log(req.method, req.path);
       next();
