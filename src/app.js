@@ -4,6 +4,7 @@ require('dotenv').config({
 
 const express = require('express');
 const router = require('../src/routes/index');
+const cors = require('cors');
 
 class AppController {
   constructor() {
@@ -13,6 +14,12 @@ class AppController {
   }
   middlewares() {
     this.express.use(express.json());
+    this.express.use(cors({
+      preflightMaxAge: 5,
+      origins: ['*'],
+      allowHeaders: ['*', 'authorization','Authorization'],
+      exposeHeaders: ['*']
+    }));
     this.express.use(function (req, res, next) {
       console.log(req.method, req.path);
       next();
